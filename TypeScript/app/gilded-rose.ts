@@ -53,6 +53,7 @@ export class GildedRose {
         break;
       }
       case ItemName.SULFURAS: {
+        // legendary item: never changes
         break;
       }
       default: {
@@ -65,7 +66,7 @@ export class GildedRose {
 
   updateQuality() {
     for (const item of this.items) {
-     this.updateItem(item);
+      this.updateItem(item);
     }
 
     return this.items;
