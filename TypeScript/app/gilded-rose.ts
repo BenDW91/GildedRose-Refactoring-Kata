@@ -45,6 +45,13 @@ export class GildedRose {
 
         break;
       }
+      case ItemName.CONJURED: {
+        item.sellIn = item.sellIn - 1;
+        const decrement = item.sellIn < 0 ? 4 : 2;
+        item.quality = Math.max(0, item.quality - decrement);
+
+        break;
+      }
       case ItemName.SULFURAS: {
         break;
       }
