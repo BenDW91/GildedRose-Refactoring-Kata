@@ -28,7 +28,7 @@ export class GildedRose {
   updateItem(item: Item) {
     switch (item.name) {
       case ItemName.AGED_BRIE: {
-        item.sellIn = item.sellIn - 1;
+        item.sellIn -= 1;
 
         const increment = item.sellIn < 0 ? 2 : 1;
         item.quality = Math.min(50, item.quality + increment);
@@ -39,14 +39,14 @@ export class GildedRose {
         const increment = this.getBackstageIncrement(item.sellIn);
 
         item.quality = Math.min(50, item.quality + increment);
-        item.sellIn = item.sellIn - 1;
+        item.sellIn -= 1;
 
         if (item.sellIn < 0) item.quality = 0;
 
         break;
       }
       case ItemName.CONJURED: {
-        item.sellIn = item.sellIn - 1;
+        item.sellIn -= 1;
         const decrement = item.sellIn < 0 ? 4 : 2;
         item.quality = Math.max(0, item.quality - decrement);
 
@@ -56,7 +56,7 @@ export class GildedRose {
         break;
       }
       default: {
-        item.sellIn = item.sellIn - 1;
+        item.sellIn -= 1;
         const decrement = item.sellIn < 0 ? 2 : 1;
         item.quality = Math.max(0, item.quality - decrement);
       }
