@@ -19,51 +19,60 @@ export class GildedRose {
     this.items = items;
   }
 
+
+  hasMaxQuality(item) {
+    return item.quality === 50;
+  }
+
   updateItem(item: Item) {
-    if (item.name != ItemNames.AGED_BRIE && item.name != ItemNames.BACKSTAGE_PASS) {
-      if (item.quality > 0) {
-        if (item.name != ItemNames.SULFURAS) {
-          item.quality = item.quality - 1
-        }
-      }
-    } else {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1
-        if (item.name == ItemNames.BACKSTAGE_PASS) {
-          if (item.sellIn < 11) {
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-          if (item.sellIn < 6) {
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-        }
-      }
-    }
+    switch (item.name) {
+      case ItemNames.AGED_BRIE:
+        item.sellIn = item.sellIn - 1;
 
-    if (item.name != ItemNames.SULFURAS) {
-      item.sellIn = item.sellIn - 1;
-    }
-
-    if (item.sellIn < 0) {
-      if (item.name != ItemNames.AGED_BRIE) {
-        if (item.name != ItemNames.BACKSTAGE_PASS) {
-          if (item.quality > 0) {
-            if (item.name != ItemNames.SULFURAS) {
-              item.quality = item.quality - 1
-            }
-          }
-        } else {
-          item.quality = 0
+        if (!this.hasMaxQuality(item)) {
+          item.quality = item.quality + 1;
         }
-      } else {
-        if (item.quality < 50) {
+
+        if(!this.hasMaxQuality(item) && item.sellIn < 0) {
           item.quality = item.quality + 1
         }
-      }
+
+        break;
+      case ItemNames.BACKSTAGE_PASS:
+        if (!this.hasMaxQuality(item)) {
+          item.quality = item.quality + 1
+        }
+
+        if (item.sellIn < 11) {
+          if (!this.hasMaxQuality(item)) {
+            item.quality = item.quality + 1
+          }
+        }
+        if (item.sellIn < 6) {
+          if (!this.hasMaxQuality(item)) {
+            item.quality = item.quality + 1
+          }
+        }
+        item.sellIn = item.sellIn - 1;
+
+        if(item.sellIn < 0) {
+          item.quality = 0
+        }
+
+        break;
+      case ItemNames.SULFURAS:
+        break;
+      default:
+        if (item.quality > 0) {
+          if (item.name != ItemNames.SULFURAS) {
+            item.quality = item.quality - 1
+          }
+        }
+        item.sellIn = item.sellIn - 1;
+
+        if (item.sellIn < 0 && item.quality > 0) {
+          item.quality = item.quality - 1
+        }
     }
   }
 
