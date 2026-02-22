@@ -19,60 +19,40 @@ export class GildedRose {
     this.items = items;
   }
 
-
-  hasMaxQuality(item) {
-    return item.quality === 50;
+  getBackstageIncrement(sellIn: number): number {
+    if (sellIn < 6)  return 3;
+    if (sellIn < 11) return 2;
+    return 1;
   }
 
   updateItem(item: Item) {
     switch (item.name) {
-      case ItemNames.AGED_BRIE:
+      case ItemNames.AGED_BRIE: {
         item.sellIn = item.sellIn - 1;
 
-        if (!this.hasMaxQuality(item)) {
-          item.quality = item.quality + 1;
-        }
-
-        if(!this.hasMaxQuality(item) && item.sellIn < 0) {
-          item.quality = item.quality + 1
-        }
+        const increment = item.sellIn < 0 ? 2 : 1;
+        item.quality = Math.min(50, item.quality + increment);
 
         break;
-      case ItemNames.BACKSTAGE_PASS:
-        if (!this.hasMaxQuality(item)) {
-          item.quality = item.quality + 1
-        }
+      }
+      case ItemNames.BACKSTAGE_PASS: {
+        const increment = this.getBackstageIncrement(item.sellIn);
 
-        if (item.sellIn < 11) {
-          if (!this.hasMaxQuality(item)) {
-            item.quality = item.quality + 1
-          }
-        }
-        if (item.sellIn < 6) {
-          if (!this.hasMaxQuality(item)) {
-            item.quality = item.quality + 1
-          }
-        }
+        item.quality = Math.min(50, item.quality + increment);
         item.sellIn = item.sellIn - 1;
 
-        if(item.sellIn < 0) {
-          item.quality = 0
-        }
+        if (item.sellIn < 0) item.quality = 0;
 
         break;
-      case ItemNames.SULFURAS:
+      }
+      case ItemNames.SULFURAS: {
         break;
-      default:
-        if (item.quality > 0) {
-          if (item.name != ItemNames.SULFURAS) {
-            item.quality = item.quality - 1
-          }
-        }
+      }
+      default: {
         item.sellIn = item.sellIn - 1;
-
-        if (item.sellIn < 0 && item.quality > 0) {
-          item.quality = item.quality - 1
-        }
+        const decrement = item.sellIn < 0 ? 2 : 1;
+        item.quality = Math.max(0, item.quality - decrement);
+      }
     }
   }
 
