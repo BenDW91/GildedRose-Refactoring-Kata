@@ -19,7 +19,7 @@ export class GildedRose {
     this.items = items;
   }
 
-  getBackstageIncrement(sellIn: number): number {
+  private getBackstageIncrement(sellIn: number): number {
     if (sellIn < 6)  return 3;
     if (sellIn < 11) return 2;
     return 1;
