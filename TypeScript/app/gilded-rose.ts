@@ -1,4 +1,4 @@
-import { ItemNames } from "./constants";
+import { ItemName } from "./constants";
 
 export class Item {
   name: string;
@@ -27,7 +27,7 @@ export class GildedRose {
 
   updateItem(item: Item) {
     switch (item.name) {
-      case ItemNames.AGED_BRIE: {
+      case ItemName.AGED_BRIE: {
         item.sellIn = item.sellIn - 1;
 
         const increment = item.sellIn < 0 ? 2 : 1;
@@ -35,7 +35,7 @@ export class GildedRose {
 
         break;
       }
-      case ItemNames.BACKSTAGE_PASS: {
+      case ItemName.BACKSTAGE_PASS: {
         const increment = this.getBackstageIncrement(item.sellIn);
 
         item.quality = Math.min(50, item.quality + increment);
@@ -45,7 +45,7 @@ export class GildedRose {
 
         break;
       }
-      case ItemNames.SULFURAS: {
+      case ItemName.SULFURAS: {
         break;
       }
       default: {
